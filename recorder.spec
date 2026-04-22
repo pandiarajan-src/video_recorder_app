@@ -19,7 +19,7 @@ from PyInstaller.utils.hooks import collect_data_files
 _imageio_datas = collect_data_files("imageio_ffmpeg")
 
 a = Analysis(
-    ["src/recorder/main.py", "src/recorder/cli.py"],
+    ["run_gui.py", "run_cli.py"],
     pathex=["src"],
     binaries=[],
     datas=_imageio_datas,
