@@ -88,22 +88,28 @@ class RecorderDialog:
         self._engine.start(output_dir)
         self._sync_buttons()
         self._status_text.set("Recording...")
+        self._root.title("Screen Recorder — Recording")
+        self._root.iconify()
 
     def _on_pause(self) -> None:
         self._engine.pause()
         self._sync_buttons()
         self._status_text.set(f"Paused  (segments so far: {len(self._engine.segments)})")
+        self._root.title("Screen Recorder — Paused")
 
     def _on_resume(self) -> None:
         self._engine.resume()
         self._sync_buttons()
         self._status_text.set("Recording...")
+        self._root.title("Screen Recorder — Recording")
+        self._root.iconify()
 
     def _on_stop(self) -> None:
         segments = self._engine.stop()
         self._sync_buttons()
         names = "\n".join(p.name for p in segments)
         self._status_text.set(f"Stopped  ({len(segments)} segment(s) saved)")
+        self._root.title("Screen Recorder")
         messagebox.showinfo("Recording stopped", f"Saved {len(segments)} segment(s):\n{names}")
 
     def _on_close(self) -> None:

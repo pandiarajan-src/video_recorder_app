@@ -11,6 +11,7 @@ import os
 import signal
 import sys
 import threading
+import time
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -69,10 +70,16 @@ def main() -> None:
 
     if args.duration > 0:
         print(f"Duration: {args.duration}s", flush=True)
-        stop_event.wait(timeout=args.duration)
+        deadline = time.monotonic() + args.duration
+        while not stop_event.is_set():
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            stop_event.wait(timeout=min(0.5, remaining))
     else:
         print("Running until Ctrl+C or SIGTERM.", flush=True)
-        stop_event.wait()
+        while not stop_event.wait(timeout=0.5):
+            pass
 
     segments = engine.stop()
     print(f"Recording stopped  segments={len(segments)}", flush=True)
