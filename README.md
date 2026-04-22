@@ -60,6 +60,23 @@ Segment file paths are printed to stdout on exit. Send `SIGINT` (Ctrl+C) or `SIG
 
 Files are named `recording_YYYYMMDD_HHMMSS_seg001.mp4`, `seg002.mp4`, etc. in the chosen directory. Each pause/resume cycle starts a new segment. Video is H.264 (`libx264`, CRF 23, ultrafast preset, `yuv420p`). No audio.
 
+## Building a Redistributable EXE (Windows)
+
+No Python required on the target machine.
+
+```bat
+:: On a Windows build machine:
+uv sync
+build_win.bat
+```
+
+Output is `dist\recorder\`. Zip that folder and distribute it.
+
+- `recorder.exe` — desktop GUI (double-click to run)
+- `recorder-cli.exe` — headless CLI
+
+Users can place a `.env` file next to the EXE to override `DEFAULT_OUTPUT_DIR`. Without it, recordings go to `%USERPROFILE%\Videos`.
+
 ## Project Structure
 
 ```
